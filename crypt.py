@@ -3,6 +3,8 @@ import base64
 import json
 from Crypto.Cipher import AES
 from phpserialize import loads
+import hashlib
+import hmac
 
 
 def decrypt(payload):
