@@ -10,17 +10,17 @@ import hmac
 
 def decrypt(payload):
     data = json.loads(base64.b64decode(payload))
-    if not valid_mac(data):
+    key=os.environ['APP_KEY']
+    if not valid_mac(key, data):
         return None
 
     value =  base64.b64decode(data['value'])
     iv = base64.b64decode(data['iv'])
 
-    return unserialize(mcrypt_decrypt(value, iv))
+    return unserialize(mcrypt_decrypt(value, iv, key))
 
-def mcrypt_decrypt(value, iv):
+def mcrypt_decrypt(value, iv, key):
     AES.key_size=128
-    key=os.environ['APP_KEY']
 
     crypt_object=AES.new(key=key,mode=AES.MODE_CBC,IV=iv)
     return crypt_object.decrypt(value)
