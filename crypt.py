@@ -7,6 +7,8 @@ from phpserialize import loads
 
 def decrypt(payload):
     data = json.loads(base64.b64decode(payload))
+    if not valid_mac(data):
+        return None
 
     value =  base64.b64decode(data['value'])
     iv = base64.b64decode(data['iv'])
@@ -22,3 +24,10 @@ def mcrypt_decrypt(value, iv):
 
 def unserialize(serialized):
     return loads(serialized)
+
+def valid_mac(key, payload):
+    dig = hmac.new(key, digestmod=hashlib.sha256)
+    dig.update(data['iv'].encode('utf8'))
+    dig.update(data['value'].encode('utf8'))
+    dig = dig.hexdigest()
+    return dig==payload['mac']
