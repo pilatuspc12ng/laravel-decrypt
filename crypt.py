@@ -1,16 +1,15 @@
 import base64
 import json
-from Crypto.Cipher import AES
 from phpserialize import loads
 import hashlib
 import hmac
-
+from Crypto.Cipher import AES
 
 def decrypt(payload, key):
     """
     Decrypt strings that have been encrypted using Laravel's encrypter (AES-256 encryption).
 
-    Plain text is encrypted in Laravvel using the following code:
+    Plain text is encrypted in Laravel using the following code:
     >>> ciphertext = Crypt::encrypt('hello world');
 
     The ciphertext is a base64's json-encoded array consisting of the following keys:
